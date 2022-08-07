@@ -1,3 +1,5 @@
+const db = require("../config/connection");
+
 class Person {
   getAll() {
     return db.query(
@@ -40,3 +42,5 @@ class Person {
     );
   }
 }
+
+module.exports = new Person();
