@@ -2,6 +2,7 @@ require("dotenv").config();
 require("./config/passport");
 
 const serverSession = require("./config/session");
+const hotlink = require("./utils/hotlink");
 const express = require("express");
 const session = require("express-session");
 const path = require("path");
@@ -21,6 +22,7 @@ app.use(
 app.use(serverSession);
 app.use(passport.initialize());
 app.use(passport.session());
+app.use(hotlink);
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
