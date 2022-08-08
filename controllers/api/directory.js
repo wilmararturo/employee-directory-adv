@@ -4,6 +4,7 @@ const { Person, Address } = require("../../models");
 const { isLoggedIn, hasProfile } = require("../../utils/auth");
 const multer = require("multer");
 const { upload } = require("../../config/multer");
+const { encrypt } = require("../../utils/crypto");
 
 router.get("/", isLoggedIn, async (req, res) => {
   try {
@@ -35,9 +36,9 @@ router.post("/", hasProfile, async (req, res) => {
     };
 
     const personsAddress = {
-      street: req.body.street,
-      city: req.body.city,
-      state: req.body.state,
+      street: encrypt(req.body.street),
+      city: encrypt(req.body.city),
+      state: encrypt(req.body.state),
     };
 
     const { rows } = await Person.create(newPersonEntry);

@@ -1,7 +1,7 @@
 require("dotenv").config();
 const { Person, Address } = require("../models");
 const SeedData = require("./seedData.json");
-const { hash } = require("../utils/crypto");
+const { encrypt, hash } = require("../utils/crypto");
 
 const seeds = async (data) => {
   for (let i = 0; i < data.length; i++) {
@@ -15,9 +15,9 @@ const seeds = async (data) => {
     personalData.github_id = hash(data[i].github_id);
 
     // Address data
-    addressData.street = data[i].street;
-    addressData.city = data[i].city;
-    addressData.state = data[i].state;
+    addressData.street = encrypt(data[i].street);
+    addressData.city = encrypt(data[i].city);
+    addressData.state = encrypt(data[i].state);
 
     const { rows } = await Person.create(personalData);
 
