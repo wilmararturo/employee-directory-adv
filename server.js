@@ -3,6 +3,8 @@ require("./config/passport");
 
 const serverSession = require("./config/session");
 const hotlink = require("./utils/hotlink");
+const helmet = require("helmet");
+const ContentSecurityPolicy = require("./config/helmet");
 const express = require("express");
 const session = require("express-session");
 const path = require("path");
@@ -11,21 +13,20 @@ const routes = require("./controllers");
 const app = express();
 const PORT = process.env.PORT || 3001;
 
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+
+app.use(ContentSecurityPolicy);
 app.use(
-  session({
-    secret: "hammer apple toothpaste",
-    resave: false,
-    saveUninitialized: false,
-    cookie: { secure: false },
+  helmet.referrerPolicy({
+    policy: "no-referrer",
   })
 );
+app.use(helmet.noSniff());
 app.use(serverSession);
 app.use(passport.initialize());
 app.use(passport.session());
 app.use(hotlink);
-
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
 
 app.use(express.static(path.join(__dirname, "/public")));
 
