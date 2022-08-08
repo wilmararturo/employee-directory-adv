@@ -3,6 +3,8 @@ require("./config/passport");
 
 const serverSession = require("./config/session");
 const hotlink = require("./utils/hotlink");
+const helmet = require("helmet");
+const ContentSecurityPolicy = require("./config/helmet");
 const express = require("express");
 const session = require("express-session");
 const path = require("path");
@@ -19,6 +21,7 @@ app.use(
     cookie: { secure: false },
   })
 );
+app.use(ContentSecurityPolicy);
 app.use(serverSession);
 app.use(passport.initialize());
 app.use(passport.session());
