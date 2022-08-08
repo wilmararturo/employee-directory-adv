@@ -22,4 +22,24 @@ const encrypt = (data) => {
   return iv.toString("hex") + ":" + encrypted.toString("hex");
 };
 
-module.exports = { encrypt, hash };
+const decrypt = (data) => {
+  let dataParts = data.split(":");
+
+  let iv = Buffer.from(dataParts[0], "hex");
+
+  let encryptedData = Buffer.from(dataParts[1], "hex");
+
+  let decipher = crypto.createDecipheriv(
+    "aes-256-cbc",
+    Buffer.from(ENCRYPTION_KEY),
+    iv
+  );
+
+  let decrypted = decipher.update(encryptedData);
+
+  decrypted = Buffer.concat([decrypted, decipher.final()]);
+
+  return decrypted.toString();
+};
+
+module.exports = { decrypt, encrypt, hash };
