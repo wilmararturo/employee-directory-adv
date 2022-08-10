@@ -5,7 +5,7 @@ let redisClient;
 
 async function connectRedis() {
   redisClient = redis.createClient({
-    port: process.env.REDPORT,
+    url: "redis://" + process.env.REDHOST + ":" + process.env.REDPORT,
   });
   await redisClient.connect();
 }
