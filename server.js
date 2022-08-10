@@ -6,7 +6,6 @@ const hotlink = require("./utils/hotlink");
 const helmet = require("helmet");
 const ContentSecurityPolicy = require("./config/helmet");
 const express = require("express");
-const session = require("express-session");
 const path = require("path");
 const passport = require("passport");
 const routes = require("./controllers");
